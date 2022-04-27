@@ -1,0 +1,60 @@
+---
+title: "Daily Temperature Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(httr)
+
+```
+
+```{r, cache = TRUE}
+meso_url <- "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py/"
+
+denver_response <- GET(url = meso_url,
+    query = list(station = "DEN",
+                 data = "tmpf",
+                 year1 = "2017",
+                 month1 = "01",
+                 day1 = "01",
+                 year2 = "2021",
+                 month2 = "12",
+                 day2 = "31",
+                 tz = "America/Denver"))
+
+denver_p <- denver_response %>%
+  content() %>% 
+  read_csv(na = "M") %>% 
+  separate(col = valid,
+           into = c("date", NA),
+           sep = " ") %>% 
+  drop_na()
+
+sf_response <- GET(url = meso_url,
+    query = list(station = "SFO",
+                 data = "tmpf",
+                 year1 = "2017",
+                 month1 = "01",
+                 day1 = "01",
+                 year2 = "2021",
+                 month2 = "12",
+                 day2 = "31",
+                 tz = "America/Denver"))
+
+
+sf_p <- sf_response %>%
+  content() %>% 
+  read_csv(na = "M") %>% 
+  separate(col = valid,
+           into = c("date", NA),
+           sep = " ") %>% 
+  drop_na()
+
+x <- bind_rows(denver_p, sf_p)
+
+write_csv(x, file = "data/temperatures.csv")
+ 
+```
+
