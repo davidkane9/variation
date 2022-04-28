@@ -1,0 +1,65 @@
+---
+title: "Variation" 
+author: "David Kane"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      # ratio: '16:9' 
+---
+class: center, middle, inverse
+background-image: url("sirens.jpg")
+background-size: cover
+
+<!-- Image credit: [National Gallery of Victoria](https://www.ngv.vic.gov.au/essay/j-w-waterhouses-ulysses-and-the-sirens-breaking-tradition-and-revealing-fears-2/) -->
+
+# `r rmarkdown::metadata$title`
+## `r rmarkdown::metadata$author`
+---
+
+
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, echo=FALSE}
+
+```
+
+---
+
+# Calculating the Average (or Mean)
+
+--
+
+$$\bar{X} = \frac{\sum_{i=1}^{n} x_{i}}{n}$$
+---
+
+# Calculating the Variance
+
+--
+
+$$s^{2} = \frac{SS}{N - 1} = \frac{\sum (x_{i} - \bar{x})^{2}}{N - 1}$$
+
+---
+
+# Calculating the Standard Deviation
+
+--
+
+$$s = \sqrt{s^{2}} = \sqrt{\frac{SS}{N - 1}} = \sqrt{\frac{\sum (x_{i} - \bar{x})^{2}}{N - 1}}$$
+
+--
+
+### Just the square root of the variance
+
+---
+
+

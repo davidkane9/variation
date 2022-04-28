@@ -11,6 +11,12 @@ library(httr)
 ```
 
 ```{r, cache = TRUE}
+# This code is borrowed and modified from the code in the Data API tutorial in
+# the primer.tutorials package. It is quite hacky! Surely, there is a way to ask
+# for two stations at once rather than making two separate calls to the API.
+# Also, this download currently gets data for each hour during the day. I don't
+# really need that much data. Just getting the daily high would be good enough.
+
 meso_url <- "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py/"
 
 denver_response <- GET(url = meso_url,
@@ -51,6 +57,9 @@ sf_p <- sf_response %>%
            into = c("date", NA),
            sep = " ") %>% 
   drop_na()
+
+# Quick review suggests that the data is OK. Certainly, it has the main feature
+# we want: temperature in Denver is about 3x more variable than in SF.
 
 x <- bind_rows(denver_p, sf_p)
 
