@@ -61,7 +61,7 @@ x <- read_csv("data/temperatures.csv")
 
 --
 
-## Discuss standard distributions and the z-score
+## Discuss the normal distribution and z-scores
 --
 
 ## Explain the bias-variance trade-off 
@@ -82,10 +82,63 @@ x <- read_csv("data/temperatures.csv")
 # San Francisco
 
 ```{r}
+x %>% 
+  filter(station == "SFO") %>% 
+  ggplot(aes(x = tmpf)) +
+    geom_histogram(aes(y = after_stat(count/sum(count))),
+                     alpha = 0.5, 
+                     bins = 30, 
+                     position = "identity") +
+    scale_y_continuous(labels = scales::percent_format(decimals = 0)) +
+    labs(title = "Hourly Temperature in San Francisco in 2017 -- 2021",
+         subtitle = "A mostly normal distribution but with a right skew",
+         x = "Temperature in Fahrenheit",
+         y = NULL)
+```
 
+---
+
+# Denver
+
+```{r}
+x %>% 
+  filter(station == "DEN") %>% 
+  ggplot(aes(x = tmpf)) +
+    geom_histogram(aes(y = after_stat(count/sum(count))),
+                     alpha = 0.5, 
+                     bins = 30, 
+                     position = "identity") +
+    scale_y_continuous(labels = scales::percent_format(decimals = 0)) +
+    labs(title = "Hourly Temperature in Denver in 2017 -- 2021",
+         subtitle = "A flattish normal distribution but with a slight left skew",
+         x = "Temperature in Fahrenheit",
+         y = NULL)
 ```
 
 
+---
+
+# San Francisco and Denver
+
+--
+
+### What will the two distributions look like together?
+
+--
+
+```{r, out.width=400}
+x %>% 
+  ggplot(aes(x = tmpf, fill = station)) +
+    geom_histogram(aes(y = after_stat(count/sum(count))),
+                     alpha = 0.5, 
+                     bins = 30, 
+                     position = "identity") +
+    scale_y_continuous(labels = scales::percent_format(decimals = 0)) +
+    labs(title = "Hourly Temperature in San Francisco and Denver in 2017 -- 2021",
+         subtitle = "The two distributions vary in terms of both center and spread",
+         x = "Temperature in Fahrenheit",
+         y = NULL)
+```
 
 ---
 
@@ -116,12 +169,55 @@ $$s = \sqrt{s^{2}} = \sqrt{\frac{SS}{N - 1}} = \sqrt{\frac{\sum (x_{i} - \bar{x}
 
 ---
 
+# Z-scores
+
+--
+
+### A z-score is the raw value, minus the mean and then divided by the standard deviation
+
+--
+
+$$z_i = \frac{x_{i} - \bar{x}}{s}$$
+---
+
+# Temperatures as z-scores
+
+--
+
+### What will these distributions look like as z-scores?
+
+--
+
+```{r, out.width=400}
+x %>% 
+  group_by(station) %>% 
+  mutate(zscore = (tmpf - mean(tmpf)) / sd(tmpf)) %>% 
+  ggplot(aes(x = zscore, fill = station)) +
+    geom_histogram(aes(y = after_stat(count/sum(count))),
+                     alpha = 0.5, 
+                     bins = 30, 
+                     position = "identity") +
+    scale_y_continuous(labels = scales::percent_format(decimals = 0)) +
+    labs(title = "Z Score for Hourly Temperature in San Francisco and Denver in 2017 -- 2021",
+         subtitle = "Distributions largely overlap, but they are still not perfectly normal",
+         x = "Z Score",
+         y = NULL)
+```
+
+
+---
 # Bias versus variance
+
 
 
 --
 
-```{r}
+## Or accuracy versus precision
+
+
+--
+
+```{r, , out.width = 400}
 knitr::include_graphics("accuracy_vs_precision.jpeg")
 ```
 
