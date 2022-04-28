@@ -59,7 +59,9 @@ sf_p <- sf_response %>%
   drop_na()
 
 # Quick review suggests that the data is OK. Certainly, it has the main feature
-# we want: temperature in Denver is about 3x more variable than in SF.
+# we want: temperature in Denver is about 3x more variable than in SF. But why
+# are the about 5% fewer observations for SFO then for DEN? Ought to look at
+# this more closely.
 
 x <- bind_rows(denver_p, sf_p)
 
