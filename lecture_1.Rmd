@@ -250,3 +250,6 @@ Figure from [Statistical Inference via Data Science: A ModernDive into R and the
 ## There is always a trade-off between bias and variance
 
 ---
+
+# Questions?
+
